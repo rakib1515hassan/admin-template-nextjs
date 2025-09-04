@@ -1,0 +1,334 @@
+'use client';
+import { useState } from 'react';
+import {
+    FaHome,
+    FaUsers,
+    FaChartBar,
+    FaShoppingCart,
+    FaAngleDown,
+    FaAngleRight,
+} from 'react-icons/fa';
+
+export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) {
+    const [activeMenu, setActiveMenu] = useState(null);
+    const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const [activeItem, setActiveItem] = useState(null);
+
+    const toggleMenu = (menu) => {
+        setActiveMenu(activeMenu === menu ? null : menu);
+        setActiveSubMenu(null); // reset submenu when switching main menu
+    };
+
+    const toggleSubMenu = (submenu) => {
+        setActiveSubMenu(activeSubMenu === submenu ? null : submenu);
+    };
+
+    return (
+    <>
+            {/* Overlay for mobile */}
+            <div
+                className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity md:hidden ${sidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                    }`}
+                onClick={() => setSidebarOpen(false)}
+            ></div>
+
+            <aside
+                className={`fixed z-30 top-0 left-0 h-full bg-white dark:bg-gray-800 shadow-xl transform transition-transform
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col border-r border-gray-200 dark:border-gray-700`}
+            >
+                {/* Logo */}
+                <div className="flex items-center justify-center h-16 shadow-sm border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-gray-800 dark:to-gray-900">
+                    <div className={`flex items-center ${sidebarOpen ? 'gap-2' : 'justify-center'}`}>
+                        <div className="bg-white dark:bg-gray-800 p-1.5 rounded-md shadow-md">
+                            <img src="/logo.svg" alt="Logo" className="h-7 w-7" />
+                        </div>
+                        <h1 className={`text-xl font-bold text-white ${!sidebarOpen && 'md:hidden'}`}>
+                            Astha Admin
+                        </h1>
+                    </div>
+                </div>
+
+                {/* Navigation */}
+                <div className="flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+                    <nav className="flex flex-col p-3 flex-grow space-y-6">
+                        {/* DASHBOARDS */}
+                        <div className="space-y-1">
+                            <h3 className={`text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 ${!sidebarOpen && 'md:hidden'}`}>
+                                DASHBOARDS
+                            </h3>
+                            <div className="mb-1">
+                                <button
+                                    onClick={() => toggleMenu('dashboard')}
+                                    className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'dashboard'
+                                            ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                                            : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        } font-medium transition-colors group`}
+                                >
+                                    <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
+                                        <div
+                                            className={`${activeMenu === 'dashboard'
+                                                    ? 'bg-cyan-200 dark:bg-cyan-900/30'
+                                                    : 'bg-gray-100 dark:bg-gray-700'
+                                                } ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-cyan-600 dark:text-cyan-400`}
+                                        >
+                                            <FaHome size={sidebarOpen ? 16 : 18} />
+                                        </div>
+                                        <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Dashboards</span>
+                                    </div>
+                                    {sidebarOpen &&
+                                        (activeMenu === 'dashboard' ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />)}
+                                </button>
+
+                                <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'dashboard' && sidebarOpen ? 'block' : 'hidden'}`}>
+                                    <a
+                                        href="#"
+                                        onClick={() => {
+                                            setActiveMenu('dashboard');
+                                            setActiveItem('analytics');
+                                        }}
+                                        className={`block p-2 rounded-md text-sm ${activeItem === 'analytics'
+                                                ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                                                : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                            }`}
+                                    >
+                                        Analytics
+                                    </a>
+                                    <a
+                                        href="#"
+                                        onClick={() => {
+                                            setActiveMenu('dashboard');
+                                            setActiveItem('ecommerce');
+                                        }}
+                                        className={`block p-2 rounded-md text-sm ${activeItem === 'ecommerce'
+                                                ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                                                : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                            }`}
+                                    >
+                                        E-commerce
+                                    </a>
+                                    <a
+                                        href="#"
+                                        onClick={() => {
+                                            setActiveMenu('dashboard');
+                                            setActiveItem('crm');
+                                        }}
+                                        className={`block p-2 rounded-md text-sm ${activeItem === 'crm'
+                                                ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                                                : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                            }`}
+                                    >
+                                        CRM
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* PRODUCT */}
+                        <div className="space-y-1">
+                            <h3 className={`text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 ${!sidebarOpen && 'md:hidden'}`}>
+                                WEB APPS
+                            </h3>
+                            <div className="mb-1">
+                                <button
+                                    onClick={() => toggleMenu('product')}
+                                    className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'product'
+                                            ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                            : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        } font-medium transition-colors group`}
+                                >
+                                    <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
+                                        <div
+                                            className={`${activeMenu === 'product'
+                                                    ? 'bg-purple-200 dark:bg-purple-900/30'
+                                                    : 'bg-gray-100 dark:bg-gray-700'
+                                                } ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-purple-600 dark:text-purple-400`}
+                                        >
+                                            <FaChartBar size={sidebarOpen ? 16 : 18} />
+                                        </div>
+                                        <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Product</span>
+                                    </div>
+                                    {sidebarOpen &&
+                                        (activeMenu === 'product' ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />)}
+                                </button>
+
+                                <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'product' && sidebarOpen ? 'block' : 'hidden'}`}>
+                                    {/* Create */}
+                                    <div>
+                                        <button
+                                            onClick={() => toggleSubMenu('createProduct')}
+                                            className="w-full flex items-center justify-between p-2 rounded-md text-sm text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700"
+                                        >
+                                            <span>Create</span>
+                                            {activeSubMenu === 'createProduct' ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}
+                                        </button>
+
+                                        <div className={`pl-4 space-y-1 mt-1 ${activeSubMenu === 'createProduct' ? 'block' : 'hidden'}`}>
+                                            <a
+                                                href="#"
+                                                onClick={() => {
+                                                    setActiveMenu('product');
+                                                    setActiveSubMenu('createProduct');
+                                                    setActiveItem('singleProduct');
+                                                }}
+                                                className={`block p-2 rounded-md text-sm ${activeItem === 'singleProduct'
+                                                        ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                Single Product
+                                            </a>
+                                            <a
+                                                href="#"
+                                                onClick={() => {
+                                                    setActiveMenu('product');
+                                                    setActiveSubMenu('createProduct');
+                                                    setActiveItem('bulkProducts');
+                                                }}
+                                                className={`block p-2 rounded-md text-sm ${activeItem === 'bulkProducts'
+                                                        ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                Bulk Products
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {/* List */}
+                                    <div>
+                                        <button
+                                            onClick={() => toggleSubMenu('listProduct')}
+                                            className="w-full flex items-center justify-between p-2 rounded-md text-sm text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700"
+                                        >
+                                            <span>List</span>
+                                            {activeSubMenu === 'listProduct' ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}
+                                        </button>
+
+                                        <div className={`pl-4 space-y-1 mt-1 ${activeSubMenu === 'listProduct' ? 'block' : 'hidden'}`}>
+                                            <a
+                                                href="#"
+                                                onClick={() => {
+                                                    setActiveMenu('product');
+                                                    setActiveSubMenu('listProduct');
+                                                    setActiveItem('allProducts');
+                                                }}
+                                                className={`block p-2 rounded-md text-sm ${activeItem === 'allProducts'
+                                                        ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                All Products
+                                            </a>
+                                            <a
+                                                href="#"
+                                                onClick={() => {
+                                                    setActiveMenu('product');
+                                                    setActiveSubMenu('listProduct');
+                                                    setActiveItem('categories');
+                                                }}
+                                                className={`block p-2 rounded-md text-sm ${activeItem === 'categories'
+                                                        ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                Categories
+                                            </a>
+                                            <a
+                                                href="#"
+                                                onClick={() => {
+                                                    setActiveMenu('product');
+                                                    setActiveSubMenu('listProduct');
+                                                    setActiveItem('tags');
+                                                }}
+                                                className={`block p-2 rounded-md text-sm ${activeItem === 'tags'
+                                                        ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                                    }`}
+                                            >
+                                                Tags
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ORDER */}
+                        <div className="mb-1">
+                            <button
+                                onClick={() => toggleMenu('order')}
+                                className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'order'
+                                        ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                        : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                    } font-medium transition-colors group`}
+                            >
+                                <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
+                                    <div
+                                        className={`${activeMenu === 'order' ? 'bg-blue-200 dark:bg-blue-900/30' : 'bg-gray-100 dark:bg-gray-700'
+                                            } ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-blue-600 dark:text-blue-400`}
+                                    >
+                                        <FaShoppingCart size={sidebarOpen ? 16 : 18} />
+                                    </div>
+                                    <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Order</span>
+                                </div>
+                                {sidebarOpen &&
+                                    (activeMenu === 'order' ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />)}
+                            </button>
+
+                            <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'order' && sidebarOpen ? 'block' : 'hidden'}`}>
+                                <a
+                                    href="#"
+                                    onClick={() => {
+                                        setActiveMenu('order');
+                                        setActiveItem('newOrders');
+                                    }}
+                                    className={`block p-2 rounded-md text-sm ${activeItem === 'newOrders'
+                                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        }`}
+                                >
+                                    New Orders
+                                </a>
+                                <a
+                                    href="#"
+                                    onClick={() => {
+                                        setActiveMenu('order');
+                                        setActiveItem('processingOrders');
+                                    }}
+                                    className={`block p-2 rounded-md text-sm ${activeItem === 'processingOrders'
+                                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        }`}
+                                >
+                                    Processing
+                                </a>
+                                <a
+                                    href="#"
+                                    onClick={() => {
+                                        setActiveMenu('order');
+                                        setActiveItem('completedOrders');
+                                    }}
+                                    className={`block p-2 rounded-md text-sm ${activeItem === 'completedOrders'
+                                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        }`}
+                                >
+                                    Completed
+                                </a>
+                                <a
+                                    href="#"
+                                    onClick={() => {
+                                        setActiveMenu('order');
+                                        setActiveItem('cancelledOrders');
+                                    }}
+                                    className={`block p-2 rounded-md text-sm ${activeItem === 'cancelledOrders'
+                                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                        }`}
+                                >
+                                    Cancelled
+                                </a>
+                            </div>
+                        </div>
+
