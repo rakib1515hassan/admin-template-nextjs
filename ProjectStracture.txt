@@ -1,0 +1,28 @@
+src/
+    ├─ app/
+    │   ├─ (auth)/
+    │   │   ├─ login/
+    │   │   │   └─ page.jsx
+    │   │   └─ register/
+    │   │       └─ page.jsx
+    |   │
+    │   ├─ (dashboard)/
+    │   │   ├─ layout.jsx
+    │   │   ├─ page.jsx
+    │   │   ├─ users/
+    │   │   │   └─ page.jsx
+    │   │   └─ settings/
+    │   │       └─ page.jsx
+    |   ├─ layout.js          # Root layout (সব পেজে common)
+    |   └─ globals.css
+    │
+    ├─ components/
+    │   ├─ layouts/
+    |   │  ├─ Sidebar.jsx
+    |   │  ├─ Navbar.jsx
+    |   │  ├─ Footer.jsx
+    |   │  └─ ThemeToggle.jsx
+    │   └─ Home.jsx
+    │
+    ├─ layout.js             # Root layout (সব পেজে common)
+    └─ globals.css
