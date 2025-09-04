@@ -31,9 +31,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
       <>
          {/* Overlay for mobile */}
          <div
-            className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity md:hidden ${
-               sidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-            }`}
+            className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity md:hidden ${sidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+               }`}
             onClick={() => setSidebarOpen(false)}
          ></div>
 
@@ -87,7 +86,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               >
                                  <FaHome size={sidebarOpen ? 16 : 18} />
                               </div>
-                              <span className={`${!sidebarOpen && 'md:hidden'}`}>Dashboards</span>
+                              <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Dashboards</span>
                            </div>
                            {sidebarOpen &&
                               (activeMenu === 'dashboard' ? (
@@ -144,7 +143,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               >
                                  <FaChartBar size={sidebarOpen ? 16 : 18} />
                               </div>
-                              <span className={`${!sidebarOpen && 'md:hidden'}`}>Product</span>
+                              <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Product</span>
                            </div>
                            {sidebarOpen &&
                               (activeMenu === 'product' ? (
@@ -232,6 +231,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         </div>
                      </div>
 
+
+
                      {/* Order Dropdown */}
                      <div className="mb-1">
                         <button
@@ -246,7 +247,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               >
                                  <FaShoppingCart size={sidebarOpen ? 16 : 18} />
                               </div>
-                              <span className={`${!sidebarOpen && 'md:hidden'}`}>Order</span>
+                              <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Order</span>
                            </div>
                            {sidebarOpen &&
                               (activeMenu === 'order' ? (
@@ -286,6 +287,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                            </a>
                         </div>
                      </div>
+
+
                      {/* Sell Dropdown */}
                      <div className="mb-1">
                         <button
@@ -300,7 +303,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               >
                                  <FaUsers size={sidebarOpen ? 16 : 18} />
                               </div>
-                              <span className={`${!sidebarOpen && 'md:hidden'}`}>Sell</span>
+                              <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Sell</span>
                            </div>
                            {sidebarOpen &&
                               (activeMenu === 'sell' ? (
