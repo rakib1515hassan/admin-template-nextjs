@@ -60,7 +60,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <div className="mb-1">
                         <button
                            onClick={() => toggleMenu('dashboard')}
-                           className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'dashboard'
+                           className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'dashboard'
                               ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
                               : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                         >
@@ -119,10 +119,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <h3 className={`text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 ${!sidebarOpen && 'md:hidden'}`}>
                         WEB APPS
                      </h3>
+
                      <div className="mb-1">
                         <button
                            onClick={() => toggleMenu('product')}
-                           className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'product'
+                           className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'product'
                               ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
                               : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                         >
@@ -188,7 +189,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                   <div className="mb-1">
                      <button
                         onClick={() => toggleMenu('order')}
-                        className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2.5 rounded-md ${activeMenu === 'order'
+                        className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'order'
                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
                            : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                      >
