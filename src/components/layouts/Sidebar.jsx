@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
    FaHome,
    FaChartBar,
@@ -14,6 +14,29 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
    const [activeMenu, setActiveMenu] = useState(null);
    const [activeSubMenu, setActiveSubMenu] = useState(null);
    const [activeItem, setActiveItem] = useState(null);
+
+   // 🎯 Sidebar background color (API driven)
+   const [sidebarBackgroundColor, setSidebarBackgroundColor] = useState(null);
+
+   useEffect(() => {
+      // fetch("https://your-backend.com/api/settings/sidebar")
+      //    .then((res) => {
+      //       if (!res.ok) throw new Error("API error");
+      //       return res.json();
+      //    })
+      //    .then((data) => {
+      //       if (data?.sidebarBackground) {
+      //          setSidebarBackgroundColor(data.sidebarBackground);
+      //       }
+      //    })
+      //    .catch(() => {
+      //       console.warn("Sidebar config API failed, using default colors");
+      //       setSidebarBackgroundColor(null); 
+      //    });
+
+      // setSidebarBackgroundColor("bg-blue-500");
+      // setSidebarBackgroundColor(null);
+   }, []);
 
    const toggleMenu = (menu) => {
       setActiveMenu(activeMenu === menu ? null : menu);
@@ -33,9 +56,24 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
          ></div>
 
          <aside
-            className={`fixed z-30 top-0 left-0 h-full bg-white dark:bg-gray-800 shadow-xl transform transition-transform
-             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-             md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col border-r border-gray-200 dark:border-gray-700`}
+            // style={{
+            //    backgroundColor: sidebarBackgroundColor || undefined, 
+            // }}
+            // className={`fixed z-30 top-0 left-0 h-full 
+            //    ${!sidebarBackgroundColor ? 'bg-white dark:bg-gray-800' : ''}  
+            //    shadow-xl transform transition-transform
+            //    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            //    md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col 
+            //    border-r border-gray-200 dark:border-gray-700`}
+
+            className={`
+               fixed z-30 top-0 left-0 h-full 
+               ${sidebarBackgroundColor || 'bg-white dark:bg-gray-800'} 
+               shadow-xl transform transition-transform
+               ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+               md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col 
+               border-r border-gray-200 dark:border-gray-700
+            `}
          >
             {/* Logo */}
             <div className="flex items-center justify-center h-16 shadow-sm border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-gray-800 dark:to-gray-900">
@@ -57,6 +95,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <h3 className={`text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 ${!sidebarOpen && 'md:hidden'}`}>
                         DASHBOARDS
                      </h3>
+                     
                      <div className="mb-1">
                         <button
                            onClick={() => toggleMenu('dashboard')}
@@ -99,7 +138,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                              key={item}
                                              onClick={() => setActiveItem(item)}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-cyan-600 dark:text-cyan-400 font-bold' 
+                                                ? 'text-cyan-600 dark:text-cyan-400 font-bold'
                                                 : 'text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'
                                                 }`}
                                           >
@@ -169,8 +208,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                                 setActiveItem(item);
                                              }}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-purple-600 dark:text-purple-400 font-bold' 
-                                                   : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
+                                                ? 'text-purple-600 dark:text-purple-400 font-bold'
+                                                : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
                                                 }`}
                                           >
                                              <span className="mr-2">•</span> {item}
@@ -210,8 +249,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               key={item}
                               onClick={() => setActiveItem(item)}
                               className={`flex items-center gap-2 p-2 rounded-md text-sm cursor-pointer ${activeItem === item
-                                    ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium'
-                                    : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                 ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium'
+                                 : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
                                  }`}
                            >
                               <span className="mr-2">•</span>
