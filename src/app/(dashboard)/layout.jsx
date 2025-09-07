@@ -7,10 +7,27 @@ import Footer from "@/components/layouts/Footer";
 import ThemeToggle from "@/components/layouts/ThemeToggle";
 
 export default function DashboardLayout({ children }) {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    
+    //! ✅ Sidebar open/close based on screen size
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setSidebarOpen(true);   // Desktop → open
+            } else {
+                setSidebarOpen(false);  // Mobile → closed
+            }
+        };
 
-    // Apply dark mode globally
+        handleResize(); // run once on mount
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+
+    //! ✅ Apply dark mode globally
     useEffect(() => {
         // Check for user preference on component mount
         const savedTheme = localStorage.getItem("theme");
