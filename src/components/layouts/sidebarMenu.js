@@ -14,21 +14,37 @@ export const sidebarMenu = [
       id: 'dashboard',
       title: 'Dashboards',
       icon: FaHome,
+      permissions: ['view_dashboard'],
       children: [
          {
             id: 'analytics',
             title: 'Analytics',
             icon: FaFolder,
+            permissions: ['view_analytics'],
             children: [
-               { id: 'inbound', title: 'Inbound Courier Service', path: '#', icon: FaDotCircle },
-               { id: 'outbound', title: 'Outbound Courier Service', path: '#', icon: FaDotCircle },
+               {
+                  id: 'inbound',
+                  title: 'Inbound Courier Service',
+                  path: '#',
+                  icon: FaDotCircle,
+                  permissions: ['view_inbound'],
+               },
+               {
+                  id: 'outbound',
+                  title: 'Outbound Courier Service',
+                  path: '#',
+                  icon: FaDotCircle,
+                  permissions: ['view_outbound'],
+               },
             ],
          },
+         //! Level-2 only
          {
             id: 'ecommerce',
             title: 'E-Commerce',
             icon: FaFolder,
-            path: '#', // Level-2 only
+            path: '#',
+            permissions: ['view_commerce'],
          },
          {
             id: 'crm',
@@ -48,6 +64,7 @@ export const sidebarMenu = [
       title: 'My Profile',
       icon: FaUser,
       path: '#',
+      permissions: ['view_profile'],
    },
 
    // Dropdown (Product)

@@ -6,6 +6,8 @@ import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import ThemeToggle from "@/components/layouts/ThemeToggle";
 
+import { demoUserPermissions } from '@/components/layouts/demoUserPermissions';
+
 export default function DashboardLayout({ children }) {
     const [darkMode, setDarkMode] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,7 +48,7 @@ export default function DashboardLayout({ children }) {
     return (
         <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
-            <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+            <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} userPermissions={demoUserPermissions} />
 
             {/* Main content */}
             <div className="flex flex-col flex-1 w-0">
