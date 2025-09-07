@@ -8,7 +8,11 @@ import {
    FaFolder,
    FaAngleDown,
    FaAngleRight,
+   FaDotCircle,
+
 } from 'react-icons/fa';
+
+import { GoDot } from "react-icons/go";
 
 export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) {
    const [activeMenu, setActiveMenu] = useState(null);
@@ -17,6 +21,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
 
    // 🎯 Sidebar background color (API driven)
    const [sidebarBackgroundColor, setSidebarBackgroundColor] = useState(null);
+   const [navigationColor, setNavigationColor] = useState(null);
+   const [navigationTitleColor, setNavigationTitleColor] = useState(null);
 
    useEffect(() => {
       // fetch("https://your-backend.com/api/settings/sidebar")
@@ -35,6 +41,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
       //    });
 
       // setSidebarBackgroundColor("bg-blue-500");
+      // setNavigationTitleColor("bg-white");
       // setSidebarBackgroundColor(null);
    }, []);
 
@@ -100,15 +107,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         <button
                            onClick={() => toggleMenu('dashboard')}
                            className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'dashboard'
-                              ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                              ? 'bg-cyan-100 dark:bg-white text-cyan-600 dark:text-gray-700'
                               : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                         >
                            <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-                              <div
-                                 className={`${activeMenu === 'dashboard'
-                                    ? 'bg-cyan-200 dark:bg-cyan-900/30'
-                                    : 'bg-gray-100 dark:bg-gray-700'} ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-cyan-600 dark:text-cyan-400`}
-                              >
+                              <div>
                                  <FaHome size={sidebarOpen ? 16 : 18} />
                               </div>
                               <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Dashboards</span>
@@ -117,13 +120,13 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         </button>
 
                         {/* Submenu level 2 */}
-                        <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'dashboard' && sidebarOpen ? 'block' : 'hidden'}`}>
+                        <div className={`pl-5 space-y-1 mt-1 ${activeMenu === 'dashboard' && sidebarOpen ? 'block' : 'hidden'}`}>
                            {['analytics', 'ecommerce', 'crm'].map((subItem) => (
                               <div key={subItem}>
                                  <button
                                     onClick={() => toggleSubMenu(subItem)}
                                     className={`w-full flex items-center gap-2 p-2 rounded-md text-sm transition-colors ${activeSubMenu === subItem
-                                       ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400'
+                                       ? 'bg-cyan-100 dark:bg-white text-cyan-600 dark:text-gray-700'
                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'}`}
                                  >
                                     <FaFolder size={14} /> {subItem.charAt(0).toUpperCase() + subItem.slice(1)}
@@ -138,11 +141,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                              key={item}
                                              onClick={() => setActiveItem(item)}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-cyan-600 dark:text-cyan-400 font-bold'
-                                                : 'text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'
+                                                ? 'text-cyan-600 dark:text-white font-bold'
+                                                : 'text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-white'
                                                 }`}
                                           >
-                                             <span className="mr-2">•</span> {item}
+                                             <GoDot className="inline mr-2" size={14} /> {item}
                                           </li>
                                        ))}
                                     </ul>
@@ -163,15 +166,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         <button
                            onClick={() => toggleMenu('product')}
                            className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'product'
-                              ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                              ? 'bg-purple-100 dark:bg-white text-purple-600 dark:text-gray-700'
                               : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                         >
                            <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-                              <div
-                                 className={`${activeMenu === 'product'
-                                    ? 'bg-purple-200 dark:bg-purple-900/30'
-                                    : 'bg-gray-100 dark:bg-gray-700'} ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-purple-600 dark:text-purple-400 flex items-center justify-center`}
-                              >
+                              <div>
                                  <FaChartBar size={sidebarOpen ? 16 : 18} />
                               </div>
                               <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Product</span>
@@ -180,13 +179,13 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         </button>
 
                         {/* Submenu level 2 */}
-                        <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'product' && sidebarOpen ? 'block' : 'hidden'}`}>
+                        <div className={`pl-5 space-y-1 mt-1 ${activeMenu === 'product' && sidebarOpen ? 'block' : 'hidden'}`}>
                            {['createProduct', 'listProduct'].map((subItem) => (
                               <div key={subItem}>
                                  <button
                                     onClick={() => toggleSubMenu(subItem)}
                                     className={`w-full flex items-center gap-2 p-2 rounded-md text-sm transition-colors ${activeSubMenu === subItem
-                                       ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                                       ? 'bg-purple-100 dark:bg-white text-purple-600 dark:text-gray-700'
                                        : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'}`}
                                  >
                                     <FaFolder size={14} /> {subItem === 'createProduct' ? 'Create' : 'List'}
@@ -208,11 +207,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                                 setActiveItem(item);
                                              }}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-purple-600 dark:text-purple-400 font-bold'
-                                                : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
+                                                ? 'text-purple-600 dark:text-white font-bold'
+                                                : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-white'
                                                 }`}
                                           >
-                                             <span className="mr-2">•</span> {item}
+                                             <GoDot className="inline mr-2" size={14} /> {item}
                                           </li>
                                        ))}
                                     </ul>
@@ -229,13 +228,11 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <button
                         onClick={() => toggleMenu('order')}
                         className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'order'
-                           ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                           ? 'bg-blue-100 dark:bg-white text-blue-600 dark:text-gray-700'
                            : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
                      >
                         <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-                           <div className={`${activeMenu === 'order'
-                              ? 'bg-blue-200 dark:bg-blue-900/30'
-                              : 'bg-gray-100 dark:bg-gray-700'} ${sidebarOpen ? 'p-1.5' : 'p-2'} rounded text-blue-600 dark:text-blue-400`}>
+                           <div>
                               <FaShoppingCart size={sidebarOpen ? 16 : 18} />
                            </div>
                            <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>Order</span>
@@ -243,17 +240,17 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         {sidebarOpen && (activeMenu === 'order' ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />)}
                      </button>
 
-                     <div className={`pl-11 space-y-1 mt-1 ${activeMenu === 'order' && sidebarOpen ? 'block' : 'hidden'}`}>
+                     <div className={`pl-5 space-y-1 mt-1 ${activeMenu === 'order' && sidebarOpen ? 'block' : 'hidden'}`}>
                         {['newOrders', 'processingOrders', 'completedOrders', 'cancelledOrders'].map((item) => (
                            <div
                               key={item}
                               onClick={() => setActiveItem(item)}
                               className={`flex items-center gap-2 p-2 rounded-md text-sm cursor-pointer ${activeItem === item
-                                 ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium'
+                                 ? 'bg-blue-100 dark:bg-white text-blue-600 dark:text-gray-700 font-bold'
                                  : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
                                  }`}
                            >
-                              <span className="mr-2">•</span>
+                              <GoDot className="inline mr-2" size={14} />
                               {item === 'newOrders'
                                  ? 'New Orders'
                                  : item === 'processingOrders'
