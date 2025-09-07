@@ -18,7 +18,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
    const [activeMenu, setActiveMenu] = useState(null);
    const [activeSubMenu, setActiveSubMenu] = useState(null);
    const [activeItem, setActiveItem] = useState(null);
-   
+
    // 🎯 Sidebar background color (API driven)
    const [navigationColorBG, setNavigationColorBG] = useState(null);
    const [navigationColorText, setNavigationColorText] = useState(null);
@@ -91,16 +91,6 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
          ></div>
 
          <aside
-            // style={{
-            //    backgroundColor: sidebarBackgroundColor || undefined, 
-            // }}
-            // className={`fixed z-30 top-0 left-0 h-full 
-            //    ${!sidebarBackgroundColor ? 'bg-white dark:bg-gray-800' : ''}  
-            //    shadow-xl transform transition-transform
-            //    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-            //    md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col 
-            //    border-r border-gray-200 dark:border-gray-700`}
-
             className={`
                fixed z-30 top-0 left-0 h-full 
                ${sidebarBackgroundColor || 'bg-white dark:bg-gray-800'} 
