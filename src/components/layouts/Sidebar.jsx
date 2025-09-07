@@ -74,7 +74,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
             <div className="flex items-center justify-center h-16 shadow-sm border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-gray-800 dark:to-gray-900">
                <div className={`flex items-center ${sidebarOpen ? 'gap-2' : 'justify-center'}`}>
                   <div className="bg-white dark:bg-gray-800 p-1.5 rounded-md shadow-md">
-                     <img src="/logo.svg" alt="Logo" className="h-7 w-7" />
+                     <img src="/logo/DekkoISHO_logo.png" alt="Logo" className="h-7 w-7" />
                   </div>
                   <h1 className={`text-xl font-bold text-white ${!sidebarOpen && 'md:hidden'}`}>Astha Admin</h1>
                </div>
