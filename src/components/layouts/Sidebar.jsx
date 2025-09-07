@@ -18,11 +18,17 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
    const [activeMenu, setActiveMenu] = useState(null);
    const [activeSubMenu, setActiveSubMenu] = useState(null);
    const [activeItem, setActiveItem] = useState(null);
-
+   
    // 🎯 Sidebar background color (API driven)
+   const [navigationColorBG, setNavigationColorBG] = useState(null);
+   const [navigationColorText, setNavigationColorText] = useState(null);
    const [sidebarBackgroundColor, setSidebarBackgroundColor] = useState(null);
-   const [navigationColor, setNavigationColor] = useState(null);
-   const [navigationTitleColor, setNavigationTitleColor] = useState(null);
+
+   const [nonactiveNavigationClassTailwindCSS, setNonactiveNavigationClassTailwindCSS] = useState(null);
+   const [nonactiveNavigationL2ClassTailwindCSS, setNonactiveNavigationL2ClassTailwindCSS] = useState(null);
+   const [nonactiveNavigationL3ClassTailwindCSS, setNonactiveNavigationL3ClassTailwindCSS] = useState(null);
+
+   const [activeNavigationClassTailwindCSS, setActiveNavigationClassTailwindCSS] = useState(null);
 
    useEffect(() => {
       // fetch("https://your-backend.com/api/settings/sidebar")
@@ -40,10 +46,32 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
       //       setSidebarBackgroundColor(null); 
       //    });
 
+      //! Sidebar Color
       // setSidebarBackgroundColor("bg-blue-500");
-      // setNavigationTitleColor("bg-white");
-      // setSidebarBackgroundColor(null);
-   }, []);
+
+      const colorMap = {
+         cyan: 'hover:text-cyan-600',
+         purple: 'hover:text-purple-600',
+         blue: 'hover:text-blue-600',
+      };
+
+      //! Navigation Color
+      setNavigationColorBG('bg-cyan-100');      //? 1. purple-100  2. cyan-100  3. blue-100
+      setNavigationColorText('text-cyan-600');  //? 1. purple-600  2. cyan-600  3. purple-600
+
+      //! Non Active Navigation Color for L1, L2 and L3
+      setNonactiveNavigationClassTailwindCSS('text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700');
+      setNonactiveNavigationL2ClassTailwindCSS('text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700');
+      setNonactiveNavigationL3ClassTailwindCSS(
+         `text-gray-600 dark:text-gray-300 ${colorMap['cyan']} dark:hover:text-white`
+      );
+
+
+      //! Navigate Color L1
+      setActiveNavigationClassTailwindCSS(
+         `${navigationColorBG} ${navigationColorText} dark:bg-white dark:text-gray-700`
+      );
+   }, [navigationColorBG, navigationColorText]);
 
    const toggleMenu = (menu) => {
       setActiveMenu(activeMenu === menu ? null : menu);
@@ -102,13 +130,13 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <h3 className={`text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 ${!sidebarOpen && 'md:hidden'}`}>
                         DASHBOARDS
                      </h3>
-                     
+
                      <div className="mb-1">
                         <button
                            onClick={() => toggleMenu('dashboard')}
                            className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'dashboard'
-                              ? 'bg-cyan-100 dark:bg-white text-cyan-600 dark:text-gray-700'
-                              : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
+                              ? activeNavigationClassTailwindCSS
+                              : nonactiveNavigationClassTailwindCSS} font-medium transition-colors group`}
                         >
                            <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
                               <div>
@@ -126,8 +154,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                  <button
                                     onClick={() => toggleSubMenu(subItem)}
                                     className={`w-full flex items-center gap-2 p-2 rounded-md text-sm transition-colors ${activeSubMenu === subItem
-                                       ? 'bg-cyan-100 dark:bg-white text-cyan-600 dark:text-gray-700'
-                                       : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'}`}
+                                       ? activeNavigationClassTailwindCSS
+                                       : nonactiveNavigationL2ClassTailwindCSS}`}
                                  >
                                     <FaFolder size={14} /> {subItem.charAt(0).toUpperCase() + subItem.slice(1)}
                                     <span className="ml-auto">{activeSubMenu === subItem ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}</span>
@@ -141,8 +169,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                              key={item}
                                              onClick={() => setActiveItem(item)}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-cyan-600 dark:text-white font-bold'
-                                                : 'text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-white'
+                                                ? navigationColorText + ' dark:text-white font-bold'
+                                                : nonactiveNavigationL3ClassTailwindCSS
                                                 }`}
                                           >
                                              <GoDot className="inline mr-2" size={14} /> {item}
@@ -166,8 +194,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                         <button
                            onClick={() => toggleMenu('product')}
                            className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'product'
-                              ? 'bg-purple-100 dark:bg-white text-purple-600 dark:text-gray-700'
-                              : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
+                              ? activeNavigationClassTailwindCSS
+                              : nonactiveNavigationClassTailwindCSS} font-medium transition-colors group`}
                         >
                            <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
                               <div>
@@ -185,8 +213,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                  <button
                                     onClick={() => toggleSubMenu(subItem)}
                                     className={`w-full flex items-center gap-2 p-2 rounded-md text-sm transition-colors ${activeSubMenu === subItem
-                                       ? 'bg-purple-100 dark:bg-white text-purple-600 dark:text-gray-700'
-                                       : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'}`}
+                                       ? activeNavigationClassTailwindCSS
+                                       : nonactiveNavigationL2ClassTailwindCSS}`}
                                  >
                                     <FaFolder size={14} /> {subItem === 'createProduct' ? 'Create' : 'List'}
                                     <span className="ml-auto">{activeSubMenu === subItem ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}</span>
@@ -207,8 +235,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                                                 setActiveItem(item);
                                              }}
                                              className={`cursor-pointer text-sm ${activeItem === item
-                                                ? 'text-purple-600 dark:text-white font-bold'
-                                                : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-white'
+                                                ? navigationColorText + ' dark:text-white font-bold'
+                                                : nonactiveNavigationL3ClassTailwindCSS
                                                 }`}
                                           >
                                              <GoDot className="inline mr-2" size={14} /> {item}
@@ -228,8 +256,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                      <button
                         onClick={() => toggleMenu('order')}
                         className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''} p-2 rounded-md ${activeMenu === 'order'
-                           ? 'bg-blue-100 dark:bg-white text-blue-600 dark:text-gray-700'
-                           : 'text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700'} font-medium transition-colors group`}
+                           ? activeNavigationClassTailwindCSS
+                           : nonactiveNavigationClassTailwindCSS} font-medium transition-colors group`}
                      >
                         <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
                            <div>
@@ -246,8 +274,8 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen }) 
                               key={item}
                               onClick={() => setActiveItem(item)}
                               className={`flex items-center gap-2 p-2 rounded-md text-sm cursor-pointer ${activeItem === item
-                                 ? 'bg-blue-100 dark:bg-white text-blue-600 dark:text-gray-700 font-bold'
-                                 : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700'
+                                 ? activeNavigationClassTailwindCSS + ' font-bold'
+                                 : nonactiveNavigationL2ClassTailwindCSS
                                  }`}
                            >
                               <GoDot className="inline mr-2" size={14} />
