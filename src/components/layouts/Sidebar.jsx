@@ -8,6 +8,7 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
    const [activeMenu, setActiveMenu] = useState(null);
    const [activeSubMenu, setActiveSubMenu] = useState(null);
    const [activeItem, setActiveItem] = useState(null);
+   const [hoverExpand, setHoverExpand] = useState(false);
 
    const [navigationColorBG, setNavigationColorBG] = useState('bg-sky-600');
    const [navigationColorText, setNavigationColorText] = useState('text-white');
@@ -25,16 +26,10 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
 
       setNavigationColorBG('bg-sky-600');
       setNavigationColorText('text-white');
-
       setNonactiveNavigationClassTailwindCSS('text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700');
       setNonactiveNavigationL2ClassTailwindCSS('text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700');
-      setNonactiveNavigationL3ClassTailwindCSS(
-         `text-gray-600 dark:text-gray-300 ${colorMap['cyan']} dark:hover:text-white`
-      );
-
-      setActiveNavigationClassTailwindCSS(
-         `${navigationColorBG} ${navigationColorText} dark:bg-white dark:text-gray-700`
-      );
+      setNonactiveNavigationL3ClassTailwindCSS(`text-gray-600 dark:text-gray-300 ${colorMap['cyan']} dark:hover:text-white`);
+      setActiveNavigationClassTailwindCSS(`${navigationColorBG} ${navigationColorText} dark:bg-white dark:text-gray-700`);
    }, [navigationColorBG, navigationColorText]);
 
    const toggleMenu = (menuId) => {
@@ -50,6 +45,10 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
       setActiveMenu(level1Id || null);
       setActiveSubMenu(level2Id || null);
       setActiveItem(level3Id || null);
+
+      if (window.innerWidth < 768) {
+         setSidebarOpen(false); // Mobile auto-close
+      }
    };
 
    const hasPermission = (menu) => {
@@ -57,83 +56,74 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
       return menu.permissions.some((p) => userPermissions.includes(p));
    };
 
+   const isExpanded = sidebarOpen || hoverExpand;
+
    return (
       <>
          {/* Mobile overlay */}
          <div
-            className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity md:hidden ${sidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-               }`}
-            onClick={() => setOpen(false)}
+            className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity md:hidden ${sidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            onClick={() => setSidebarOpen(false)}
          />
 
          <aside
-            className={`fixed z-30 top-0 left-0 h-full bg-white dark:bg-gray-800 shadow-xl transform transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-               } md:${sidebarOpen ? 'w-64' : 'w-20'} md:translate-x-0 md:static md:flex md:flex-col border-r border-gray-200 dark:border-gray-700`}
+            onMouseEnter={() => {
+               if (!sidebarOpen) setHoverExpand(true);
+            }}
+            onMouseLeave={() => {
+               if (hoverExpand) setHoverExpand(false);
+            }}
+            className={`fixed z-30 top-0 left-0 h-full bg-white dark:bg-gray-800 shadow-xl transform transition-all duration-300 
+          ${isExpanded ? 'translate-x-0 w-64' : '-translate-x-full md:w-20 md:translate-x-0'} 
+          md:static md:flex md:flex-col border-r border-gray-200 dark:border-gray-700`}
          >
             {/* Logo */}
             <div className="flex items-center justify-center h-16 shadow-sm border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-gray-800 dark:to-gray-900">
-               <div className={`flex items-center ${sidebarOpen ? 'gap-2' : 'justify-center'}`}>
+               <div className={`flex items-center ${isExpanded ? 'gap-2' : 'justify-center'}`}>
                   <div className="bg-white dark:bg-gray-800 p-1.5 rounded-md shadow-md">
                      <img src="/logo/DekkoISHO_logo.png" alt="Logo" className="h-7 w-7" />
                   </div>
-                  <h1 className={`text-xl font-bold text-white ${!sidebarOpen && 'md:hidden'}`}>Astha Admin</h1>
+                  {isExpanded && <h1 className="text-xl font-bold text-white">Astha Admin</h1>}
                </div>
             </div>
 
-            {/* Navigation */}
+            {/* Menu items */}
             <div className="flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
                <nav className="flex flex-col p-3 flex-grow space-y-1">
                   {sidebarMenu.map((menu) => {
                      if (!hasPermission(menu)) return null;
-
                      return (
                         <div key={menu.id} className="mb-1">
                            {/* Level 1 */}
                            <button
-                              onClick={() =>
-                                 menu.children
-                                    ? toggleMenu(menu.id)
-                                    : handleItemClick(menu.id)
-                              }
-                              className={`w-full flex items-center justify-between ${sidebarOpen ? 'gap-3' : ''
-                                 } p-2 rounded-md ${activeMenu === menu.id ? activeNavigationClassTailwindCSS : nonactiveNavigationClassTailwindCSS
+                              onClick={() => (menu.children ? toggleMenu(menu.id) : handleItemClick(menu.id))}
+                              className={`w-full flex items-center justify-between ${isExpanded ? 'gap-3' : 'justify-center'} p-2 rounded-[4px] ${activeMenu === menu.id ? activeNavigationClassTailwindCSS : nonactiveNavigationClassTailwindCSS
                                  } font-medium transition-colors`}
                            >
-                              <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-                                 {menu.icon && <menu.icon size={sidebarOpen ? 16 : 18} />}
-                                 <span className={`${!sidebarOpen && 'md:hidden'} text-base`}>{menu.title}</span>
+                              <div className={`flex items-center ${isExpanded ? 'gap-3' : 'justify-center w-full'}`}>
+                                 {menu.icon && <menu.icon size={isExpanded ? 16 : 18} />}
+                                 {isExpanded && <span className="text-base">{menu.title}</span>}
                               </div>
-                              {menu.children && sidebarOpen && (
-                                 activeMenu === menu.id ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />
-                              )}
+                              {menu.children && isExpanded && (activeMenu === menu.id ? <FaAngleDown size={16} /> : <FaAngleRight size={16} />)}
                            </button>
 
                            {/* Level 2 */}
-                           {menu.children && activeMenu === menu.id && (
+                           {menu.children && activeMenu === menu.id && isExpanded && (
                               <div className="pl-5 space-y-1 mt-1">
                                  {menu.children.map((sub) => {
                                     if (!hasPermission(sub)) return null;
-
                                     return (
                                        <div key={sub.id}>
                                           <button
-                                             onClick={() =>
-                                                sub.children
-                                                   ? toggleSubMenu(sub.id)
-                                                   : handleItemClick(menu.id, sub.id)
-                                             }
-                                             className={`w-full flex items-center gap-2 px-2 py-1 rounded-md text-sm transition-colors ${activeSubMenu === sub.id || activeItem === sub.id
-                                                   ? activeNavigationClassTailwindCSS
-                                                   : nonactiveNavigationL2ClassTailwindCSS
+                                             onClick={() => (sub.children ? toggleSubMenu(sub.id) : handleItemClick(menu.id, sub.id))}
+                                             className={`w-full flex items-center gap-2 px-2 py-1 rounded-[4px] text-sm transition-colors ${activeSubMenu === sub.id || activeItem === sub.id
+                                                ? activeNavigationClassTailwindCSS
+                                                : nonactiveNavigationL2ClassTailwindCSS
                                                 }`}
                                           >
                                              {sub.icon && <sub.icon size={14} />}
                                              {sub.title}
-                                             {sub.children && (
-                                                <span className="ml-auto">
-                                                   {activeSubMenu === sub.id ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}
-                                                </span>
-                                             )}
+                                             {sub.children && <span className="ml-auto">{activeSubMenu === sub.id ? <FaAngleDown size={12} /> : <FaAngleRight size={12} />}</span>}
                                           </button>
 
                                           {/* Level 3 */}
@@ -141,7 +131,6 @@ export default function Sidebar({ open: sidebarOpen, setOpen: setSidebarOpen, us
                                              <ul className="pl-6 mt-1 space-y-1">
                                                 {sub.children.map((item) => {
                                                    if (!hasPermission(item)) return null;
-
                                                    return (
                                                       <li
                                                          key={item.id}
